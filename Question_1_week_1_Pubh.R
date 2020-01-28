@@ -37,16 +37,16 @@ framingham_women$ShockIndex <- round(framingham_women$ShockIndex,2)
 levels(framingham_women$cholRisk) <- c("Desireable","Borderline","High")
 
 
-#restricting our results
+#restricting our results to filter out NAs 
 framingham_women <- framingham_women %>% filter(cholRisk != "NA")
 
 #using plotly and ggplot to graph the results 
-plot_ly(framingham_women, y = ~ShockIndex, color = ~cholRisk, type = "box", jitter = 0.5)
+plot_ly(framingham_women, y = ~ShockIndex, x = ~cholRisk, color = ~cholRisk, type = "box", jitter = 0.5)
 
 #creating dummy variables for Chol levels
 framingham_women <- framingham_women %>% dummy_cols()
 
 
 paste("here are some summary statistics by groups - gender is women")
-summary_statistics_framingham <- framingham_women %>% group_by(cholRisk) %>% summarise(counts = n(), mean = mean(ShockIndex), median(ShockIndex), sd(ShockIndex), min(ShockIndex),max(ShockIndex))
-summary_statistics_framingham
+stats_by_cholRisk_women <- framingham_women %>% group_by(cholRisk) %>% summarise(counts = n(), mean = mean(ShockIndex), median(ShockIndex), sd(ShockIndex), min(ShockIndex),max(ShockIndex))
+stats_by_cholRisk_women
